@@ -19,7 +19,6 @@ bgt $t0, 0, verifica
 j main 
 
 verifica:
-#divide, pega o resto, procura > 7
 div $t2, $t0, 10 
 rem $t3, $t0, 10 
 bgt $t3, 7, erro  
