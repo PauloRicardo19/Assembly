@@ -1,0 +1,44 @@
+#47. Criar um algoritmo que leia um numero maior que zero e diga se o numero eh octal ou nao.
+#Garanta que o(s) numero(s) lido(s) sejam maiores do que zero e, caso nao seja, deve ser novamente solicitado.
+
+.data
+	msg1: .asciiz "\n Digite um numero: "
+	msg2: .asciiz "\n E octal." 
+	msg3: .asciiz "\n Nao e octal."
+.text
+main:
+li $v0, 4
+la $a0 msg1 
+syscall 
+
+li $v0, 5
+syscall 
+
+add $t0, $v0, 0 
+bgt $t0, 0, verifica
+j main 
+
+verifica:
+#divide, pega o resto, procura > 7
+div $t2, $t0, 10 
+rem $t3, $t0, 10 
+bgt $t3, 7, erro  
+loop:
+rem $t3, $t2, 10
+div $t2, $t2, 10 
+bgt $t3, 7, erro
+bgt $t2, 0, loop
+j octal
+
+erro:
+li $v0, 4
+la $a0, msg3
+syscall 
+j fim
+
+octal:
+li $v0, 4
+la $a0, msg2
+syscall 
+
+fim:
